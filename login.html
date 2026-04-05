@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix High School - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background: #f0f2f5; /* सादा बैकग्राउंड */
+            overflow: hidden; 
+        }
+        
+        /* Grid background section हटा दिया गया है */
+        
+        .box { 
+            position: relative; 
+            width: 380px; 
+            height: 520px; 
+            background: #ffffff; 
+            border-radius: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        
+        .border-animation { 
+            position: absolute; 
+            inset: -3px; 
+            background: conic-gradient(from 0deg, transparent, #2e7d32, transparent, #4caf50, transparent); 
+            border-radius: 20px; 
+            animation: rotate 4s linear infinite; 
+            z-index: -1; 
+        }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        .login-content { width: 100%; padding: 30px; z-index: 5; text-align: center; }
+
+        .school-logo { 
+            width: 180px; 
+            height: auto; 
+            margin-bottom: 10px; 
+            filter: drop-shadow(0 0 5px rgba(46, 125, 50, 0.1)); 
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h2 { color: #2e7d32; font-size: 1.4em; letter-spacing: 0.1em; margin-bottom: 30px; text-transform: uppercase; font-weight: 700; }
+        
+        .inputBx { position: relative; margin-bottom: 20px; text-align: left; }
+        .inputBx input { 
+            width: 100%; 
+            background: #f8f9fa; 
+            border: 1px solid #ddd; 
+            padding: 12px 15px 12px 45px; 
+            border-radius: 10px; 
+            color: #333; 
+            outline: none; 
+            transition: 0.3s; 
+        }
+        .inputBx input:focus { border-color: #4caf50; background: #fff; }
+        .inputBx i { position: absolute; left: 15px; top: 15px; color: #2e7d32; }
+
+        .btn-login { 
+            width: 100%; 
+            padding: 12px; 
+            background: #2e7d32; 
+            border: none; 
+            color: #fff; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            border-radius: 10px; 
+            transition: 0.4s; 
+            font-size: 1rem;
+        }
+        .btn-login:hover { background: #1b5e20; box-shadow: 0 0 15px rgba(46, 125, 50, 0.3); }
+
+        #error { color: #d32f2f; margin-top: 15px; font-weight: bold; display: none; font-size: 0.85em; }
+        .footer-text { color: #aaa; font-size: 0.75em; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="border-animation"></div>
+        <div class="login-content">
+            <img src="file:///C:/Users/MHS/Documents/New%20folder/image.png.jpeg" alt="Logo" class="school-logo">
+            <h2>Matrix High School</h2>
+            
+            <div class="inputBx">
+                <i class="fa-solid fa-user-shield"></i>
+                <input type="text" id="user" placeholder="SYSTEM ID" autocomplete="off">
+            </div>
+            <div class="inputBx">
+                <i class="fa-solid fa-key"></i>
+                <input type="password" id="pass" placeholder="ACCESS KEY">
+            </div>
+            
+            <button class="btn-login" onclick="handleLogin()">LOGIN</button>
+            <div id="error">! ACCESS DENIED !</div>
+            
+            <div class="footer-text">Secure Access Portal | v2.0</div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            const error = document.getElementById('error');
+            
+            let users = JSON.parse(localStorage.getItem("appUsers")) || [{u: "admin", p: "123"}];
+            let found = users.find(user => user.u === u && user.p === p);
+
+            if(found) {
+                window.location.href = "dashboard.html";
+            } else {
+                error.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Getpass</title>
+    <style>
+        body { font-family: 'Courier New', Courier, monospace; padding: 20px; background: #fff; }
+        .container { width: 100%; max-width: 800px; margin: auto; }
+        
+        /* PASS BOX DESIGN */
+        .pass-box {
+            border: 2px dashed #000;
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            background: #fff;
+        }
+
+        .header { text-align: center; border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
+        .header h1 { margin: 0; font-size: 1.5rem; text-transform: uppercase; }
+        .copy-tag { position: absolute; top: 10px; right: 10px; font-weight: bold; border: 1px solid #000; padding: 2px 8px; font-size: 0.8rem; }
+
+        .details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem; }
+        .full-width { grid-column: span 2; }
+        .footer { margin-top: 25px; display: flex; justify-content: space-between; font-size: 0.8rem; }
+        
+        .cut-line { text-align: center; border-bottom: 1px dashed #999; margin: 40px 0; position: relative; }
+        .cut-line span { background: #fff; padding: 0 10px; color: #999; font-size: 0.7rem; position: relative; top: 8px; }
+
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="text-align:center; margin-bottom: 20px;">
+        <button onclick="window.print()" style="padding:10px 20px; background:#28a745; color:white; border:none; cursor:pointer;">PRINT NOW</button>
+        <button onclick="window.location.href='input.html'" style="padding:10px 20px; background:#666; color:white; border:none; cursor:pointer;">NEW ENTRY</button>
+    </div>
+
+    <div class="container" id="printArea">
+        <div class="pass-box">
+            <div class="copy-tag">STUDENT COPY</div>
+            <div class="header">
+                <h1>MATRIX HIGH SCHOOL</h1>
+                <small>Gate Pass / Outpass Receipt</small>
+            </div>
+            <div class="details">
+                <div><strong>SR NO:</strong> <span id="s_sr"></span></div>
+                <div><strong>DATE:</strong> <span id="s_date"></span></div>
+                <div><strong>STUDENT:</strong> <span id="s_name"></span></div>
+                <div><strong>FATHER:</strong> <span id="s_father"></span></div>
+                <div class="full-width"><strong>REASON:</strong> <span id="s_reason"></span></div>
+                <div><strong>AUTH BY:</strong> <span id="s_auth"></span></div>
+                <div><strong>CONTACT:</strong> <span id="s_contact"></span></div>
+            </div>
+            <div class="footer">
+                <p>___________________<br>Guardian Sign</p>
+                <p>___________________<br>Reception Sign</p>
+            </div>
+        </div>
+
+        <div class="cut-line"><span>✂ SCISSORS CUT HERE ✂</span></div>
+
+        <div class="pass-box">
+            <div class="copy-tag">INSTITUTE COPY</div>
+            <div class="header">
+                <h1>MATRIX HIGH SCHOOL</h1>
+                <small>Gate Pass / Outpass Receipt</small>
+            </div>
+            <div class="details">
+                <div><strong>SR NO:</strong> <span id="i_sr"></span></div>
+                <div><strong>DATE:</strong> <span id="i_date"></span></div>
+                <div><strong>STUDENT:</strong> <span id="i_name"></span></div>
+                <div><strong>FATHER:</strong> <span id="i_father"></span></div>
+                <div class="full-width"><strong>REASON:</strong> <span id="i_reason"></span></div>
+                <div><strong>AUTH BY:</strong> <span id="i_auth"></span></div>
+                <div><strong>CONTACT:</strong> <span id="i_contact"></span></div>
+            </div>
+            <div class="footer">
+                <p>___________________<br>Security Entry</p>
+                <p>___________________<br>Reception Sign</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem("currentPass"));
+        if(data) {
+            // Fill Student Copy
+            document.getElementById('s_sr').innerText = data.sr;
+            document.getElementById('s_name').innerText = data.name;
+            document.getElementById('s_father').innerText = data.father;
+            document.getElementById('s_contact').innerText = data.contact;
+            document.getElementById('s_reason').innerText = data.reason;
+            document.getElementById('s_auth').innerText = data.auth;
+            document.getElementById('s_date').innerText = data.date;
+
+            // Fill Institute Copy
+            document.getElementById('i_sr').innerText = data.sr;
+            document.getElementById('i_name').innerText = data.name;
+            document.getElementById('i_father').innerText = data.father;
+            document.getElementById('i_contact').innerText = data.contact;
+            document.getElementById('i_reason').innerText = data.reason;
+            document.getElementById('i_auth').innerText = data.auth;
+            document.getElementById('i_date').innerText = data.date;
+        }
+    </script>
+</body>
+</html>

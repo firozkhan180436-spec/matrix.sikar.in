@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix AI | New Entry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f7f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .form-card { background: white; width: 100%; max-width: 500px; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 5px solid #1a73e8; }
+        h2 { color: #1a73e8; margin-bottom: 20px; text-align: center; font-weight: 600; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85rem; color: #555; margin-bottom: 5px; font-weight: 600; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; outline: none; }
+        input:focus { border-color: #1a73e8; background: #f9fbff; }
+        .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .btn-save { background: #1a73e8; color: white; }
+        .btn-back { background: #eee; color: #555; }
+        .btn-save:hover { background: #1557b0; }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <h2><i class="fa-solid fa-id-card"></i> Outpass Entry</h2>
+        <div class="input-group"><label>SR Number</label><input type="text" id="sr" placeholder="Automatic/Manual ID"></div>
+        <div class="input-group"><label>Student Name</label><input type="text" id="name"></div>
+        <div class="input-group"><label>Father's Name</label><input type="text" id="father"></div>
+        <div class="input-group"><label>Contact Number</label><input type="number" id="contact"></div>
+        <div class="input-group"><label>Authorized By (Kisse baat hui)</label><input type="text" id="auth"></div>
+        <div class="input-group"><label>Reason</label><input type="text" id="reason"></div>
+        
+        <div class="btn-row">
+            <button class="btn btn-back" onclick="window.location.href='dashboard.html'">BACK</button>
+            <button class="btn btn-save" onclick="saveData()">GENERATE PASS</button>
+        </div>
+    </div>
+
+    <script>
+        function saveData() {
+            let data = {
+                sr: document.getElementById('sr').value,
+                name: document.getElementById('name').value,
+                father: document.getElementById('father').value,
+                contact: document.getElementById('contact').value,
+                auth: document.getElementById('auth').value,
+                reason: document.getElementById('reason').value,
+                date: new Date().toLocaleString()
+            };
+
+            if(!data.name || !data.contact) return alert("Kripya details bharein!");
+
+            // Save to Database (LocalStorage)
+            let logs = JSON.parse(localStorage.getItem("allOutpasses")) || [];
+            logs.unshift(data);
+            localStorage.setItem("allOutpasses", JSON.stringify(logs));
+            
+            // Temporary save for Print
+            localStorage.setItem("currentPass", JSON.stringify(data));
+            window.location.href = "print.html";
+        }
+    </script>
+</body>
+</html>

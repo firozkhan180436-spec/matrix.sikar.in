@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix HIGH SCHOOL | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Global Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        
+        body {
+            background: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: #ffffff;
+            padding: 10px 40px; /* Thoda padding adjust kiya height manage karne ke liye */
+            display: flex;
+            align-items: center;
+            height: 100px; /* Logo upar aane se height thodi badhai hai */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Logo & Text Section (Vertical Alignment) */
+        .logo-section { 
+            display: flex; 
+            flex-direction: column; /* Isse logo text ke upar aayega */
+            align-items: center; 
+            justify-content: center;
+            margin-right: 30px; 
+            text-align: center;
+        }
+
+        .school-logo {
+            width: 45px; /* Logo ki size control karne ke liye */
+            height: auto;
+            margin-bottom: 2px;
+        }
+
+        .logo { 
+            font-size: 0.9rem; /* Text size thodi choti ki hai taaki neat lage */
+            color: #1a73e8; 
+            letter-spacing: 1px; 
+            font-weight: 800; 
+            line-height: 1;
+        }
+
+        .v-line { width: 1px; height: 40px; background: #ddd; margin-left: 20px; }
+
+        /* --- NAVIGATION --- */
+        nav { display: flex; gap: 10px; flex-grow: 1; margin-left: 20px; }
+        .nav-item {
+            padding: 10px 15px;
+            color: #5f6368;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover { background: #f1f3f4; color: #1a73e8; }
+        .nav-item.active { color: #1a73e8; background: #e8f0fe; }
+
+        .sign-out { color: #d93025; padding: 10px 20px; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 8px; border-radius: 6px; }
+        .sign-out:hover { background: #fce8e6; }
+
+        .h-line { width: 100%; height: 1px; background: #e0e0e0; }
+
+        /* --- MAIN CONTENT --- */
+        main { flex: 1; padding: 30px 40px; overflow-y: auto; }
+        .section { display: none; }
+        .section.active { display: block; animation: slideUp 0.4s ease; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1 { font-size: 1.3rem; margin-bottom: 20px; color: #202124; font-weight: 600; border-left: 4px solid #1a73e8; padding-left: 15px; }
+
+        /* Stats Card Grid */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: 0.3s;
+        }
+        .card:hover { border-color: #1a73e8; transform: translateY(-3px); }
+        .card h3 { font-size: 0.7rem; color: #70757a; text-transform: uppercase; margin-bottom: 8px; }
+        .card p { font-size: 1.6rem; color: #1a73e8; font-weight: 700; }
+
+        /* Table Design */
+        .table-container { background: #fff; border-radius: 12px; border: 1px solid #e0e0e0; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #f1f3f4; font-size: 0.9rem; }
+        th { background: #f8f9fa; color: #5f6368; font-size: 0.75rem; text-transform: uppercase; }
+        
+        .delete-btn {
+            color: #d93025;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .delete-btn:hover { background: #fce8e6; }
+
+        /* Inputs */
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        .btn-primary { width: 100%; padding: 12px; background: #1a73e8; color: #fff; border: none; cursor: pointer; border-radius: 8px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <img src="file:///C:/Users/MHS/Documents/New%20folder/MATRIX.png" alt="Logo" class="school-logo">
+           
+        </div>
+        
+        <div class="v-line"></div>
+
+        <nav>
+            <div class="nav-item active" onclick="switchSection('home', this)">
+                <i class="fa-solid fa-chart-line"></i> Dashboard
+            </div>
+            <div class="nav-item" onclick="window.location.href='input.html'">
+                <i class="fa-solid fa-plus"></i> Outpass Entry
+            </div>
+            <div class="nav-item" onclick="switchSection('history', this)">
+                <i class="fa-solid fa-database"></i> History Logs
+            </div>
+            <div class="nav-item" onclick="switchSection('settings', this)">
+                <i class="fa-solid fa-sliders"></i> Admin Settings
+            </div>
+        </nav>
+
+        <div class="sign-out" onclick="window.location.href='login.html'">
+            Sign Out <i class="fa-solid fa-right-from-bracket"></i>
+        </div>
+    </header>
+
+    <div class="h-line"></div> 
+
+    <main>
+        <div id="home" class="section active">
+            <h1>System Status Overview</h1>
+            <div class="stats-grid">
+                <div class="card"><h3>Total Records</h3><p id="totalRec">0</p></div>
+                <div class="card"><h3>NEET Aspirants</h3><p id="neetCount">0</p></div>
+                <div class="card"><h3>JEE Aspirants</h3><p id="jeeCount">0</p></div>
+                <div class="card"><h3>Schooling (PC)</h3><p id="pcCount">0</p></div>
+                <div class="card"><h3>Schooling (City)</h3><p id="cityCount">0</p></div>
+                <div class="card"><h3>Residential</h3><p id="resCount">0</p></div>
+            </div>
+        </div>
+
+        <div id="history" class="section">
+            <h1>Security Logs Management</h1>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SR</th>
+                            <th>Student Name</th>
+                            <th>Category</th>
+                            <th>Reason</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="settings" class="section">
+            <h1>Database Configuration</h1>
+            <div style="max-width: 400px; background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #e0e0e0;">
+                <label>New User ID</label>
+                <input type="text" id="nu" placeholder="admin_01">
+                <label>Security Password</label>
+                <input type="password" id="np" placeholder="••••••••">
+                <button class="btn-primary" onclick="saveUser()">UPDATE ACCESS</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function switchSection(id, el) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+            loadData();
+        }
+
+        function loadData() {
+            let logs = JSON.parse(localStorage.getItem("allOutpasses")) || [];
+            document.getElementById('totalRec').innerText = logs.length;
+            document.getElementById('neetCount').innerText = logs.filter(l => l.category === 'NEET').length;
+            document.getElementById('jeeCount').innerText = logs.filter(l => l.category === 'JEE').length;
+            document.getElementById('pcCount').innerText = logs.filter(l => l.campus === 'PC Campus').length;
+            document.getElementById('cityCount').innerText = logs.filter(l => l.campus === 'City Campus').length;
+            document.getElementById('resCount').innerText = logs.filter(l => l.campus === 'Residential').length;
+
+            let tableBody = document.getElementById('logTable');
+            tableBody.innerHTML = logs.length === 0 ? "<tr><td colspan='6' style='text-align:center;'>No records found.</td></tr>" : 
+            logs.map((item, index) => `<tr>
+                <td>${index + 1}</td>
+                <td><b>${item.name}</b></td>
+                <td><span style="font-size:0.8rem; background:#eee; padding:2px 6px; border-radius:4px;">${item.category || 'N/A'}</span></td>
+                <td>${item.reason}</td>
+                <td>${item.date}</td>
+                <td><button class="delete-btn" onclick="deleteRecord(${index})"><i class="fa-solid fa-trash-can"></i></button></td>
+            </tr>`).join('');
+        }
+
+        function deleteRecord(index) {
+            if(confirm("Delete this record?")) {
+                let logs = JSON.parse(localStorage.getItem("allOutpasses")) || [];
+                logs.splice(index, 1);
+                localStorage.setItem("allOutpasses", JSON.stringify(logs));
+                loadData();
+            }
+        }
+
+        function saveUser() {
+            let u = document.getElementById('nu').value;
+            let p = document.getElementById('np').value;
+            if(!u || !p) return alert("Fill all fields");
+            let users = JSON.parse(localStorage.getItem("appUsers")) || [{u: "admin", p: "123"}];
+            users.push({u: u, p: p});
+            localStorage.setItem("appUsers", JSON.stringify(users));
+            alert("Database Updated!");
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
