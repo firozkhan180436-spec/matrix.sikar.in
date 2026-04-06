@@ -3,63 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix AI | New Entry</title>
+    <title>Matrix | Student Gate Pass Entry</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f4f7f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .form-card { background: white; width: 100%; max-width: 500px; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 5px solid #1a73e8; }
-        h2 { color: #1a73e8; margin-bottom: 20px; text-align: center; font-weight: 600; }
+        :root {
+            --primary-color: #008751;
+            --bg-color: #f0f2f5;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); display: flex; justify-content: center; padding: 20px; }
+        
+        .form-card { 
+            background: white; padding: 25px; border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; 
+            border-top: 5px solid var(--primary-color);
+        }
+        
+        h2 { color: var(--primary-color); text-align: center; margin-bottom: 20px; font-size: 1.6rem; }
+        
         .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 0.85rem; color: #555; margin-bottom: 5px; font-weight: 600; }
-        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; outline: none; }
-        input:focus { border-color: #1a73e8; background: #f9fbff; }
-        .btn-row { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .btn-save { background: #1a73e8; color: white; }
-        .btn-back { background: #eee; color: #555; }
-        .btn-save:hover { background: #1557b0; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; font-size: 0.9rem; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; 
+            border-radius: 8px; box-sizing: border-box; font-size: 1rem;
+            transition: 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,135,81,0.2);
+        }
+
+        .row { display: flex; gap: 15px; }
+        .row .input-group { flex: 1; }
+
+        button { 
+            width: 100%; padding: 15px; margin-top: 10px; 
+            background: var(--primary-color); color: white; border: none; 
+            border-radius: 8px; font-weight: bold; font-size: 1.1rem; 
+            cursor: pointer; transition: 0.3s;
+        }
+        
+        button:hover { background: #006b40; transform: translateY(-2px); }
+        
+        .back-btn { 
+            display: block; text-align: center; margin-top: 20px; 
+            color: #666; text-decoration: none; font-size: 0.9rem; 
+        }
+        .back-btn:hover { color: var(--primary-color); }
+
+        .sr-badge {
+            background: #e6f4ea; color: var(--primary-color);
+            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem;
+            display: inline-block; margin-bottom: 15px; font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <div class="form-card">
-        <h2><i class="fa-solid fa-id-card"></i> Outpass Entry</h2>
-        <div class="input-group"><label>SR Number</label><input type="text" id="sr" placeholder="Automatic/Manual ID"></div>
-        <div class="input-group"><label>Student Name</label><input type="text" id="name"></div>
-        <div class="input-group"><label>Father's Name</label><input type="text" id="father"></div>
-        <div class="input-group"><label>Contact Number</label><input type="number" id="contact"></div>
-        <div class="input-group"><label>Authorized By (Kisse baat hui)</label><input type="text" id="auth"></div>
-        <div class="input-group"><label>Reason</label><input type="text" id="reason"></div>
-        
-        <div class="btn-row">
-            <button class="btn btn-back" onclick="window.location.href='dashboard.html'">BACK</button>
-            <button class="btn btn-save" onclick="saveData()">GENERATE PASS</button>
+
+<div class="form-card">
+    <h2>New Student Gate Pass</h2>
+    <div id="srDisplay" class="sr-badge">Next SR No: Loading...</div>
+    
+    <div class="input-group">
+        <label><i class="fas fa-user"></i> Student Name</label>
+        <input type="text" id="sName" placeholder="Enter student name">
+    </div>
+
+    <div class="input-group">
+        <label><i class="fas fa-user-friends"></i> Father's Name</label>
+        <input type="text" id="fName" placeholder="Enter father's name">
+    </div>
+
+    <div class="row">
+        <div class="input-group">
+            <label><i class="fas fa-id-badge"></i> Roll Number</label>
+            <input type="text" id="rNo" placeholder="Roll No">
+        </div>
+        <div class="input-group">
+            <label><i class="fas fa-phone"></i> Contact Number</label>
+            <input type="number" id="cNo" placeholder="Mobile No">
         </div>
     </div>
 
-    <script>
-        function saveData() {
-            let data = {
-                sr: document.getElementById('sr').value,
-                name: document.getElementById('name').value,
-                father: document.getElementById('father').value,
-                contact: document.getElementById('contact').value,
-                auth: document.getElementById('auth').value,
-                reason: document.getElementById('reason').value,
-                date: new Date().toLocaleString()
-            };
+    <div class="input-group">
+        <label><i class="fas fa-layer-group"></i> Category / Division</label>
+        <select id="sCat">
+            <option value="JEE">JEE Division</option>
+            <option value="NEET">NEET Division</option>
+            <option value="School">Matrix High School</option>
+            <option value="Pre-Foundation">Pre-Foundation</option>
+        </select>
+    </div>
 
-            if(!data.name || !data.contact) return alert("Kripya details bharein!");
+    <div class="input-group">
+        <label><i class="fas fa-comments"></i> Talked To (किससे बात हुई)</label>
+        <input type="text" id="talkedTo" placeholder="Guardian / Parent name">
+    </div>
 
-            // Save to Database (LocalStorage)
-            let logs = JSON.parse(localStorage.getItem("allOutpasses")) || [];
-            logs.unshift(data);
-            localStorage.setItem("allOutpasses", JSON.stringify(logs));
-            
-            // Temporary save for Print
-            localStorage.setItem("currentPass", JSON.stringify(data));
-            window.location.href = "print.html";
+    <div class="input-group">
+        <label><i class="fas fa-edit"></i> Reason for Leave</label>
+        <textarea id="sReason" rows="3" placeholder="Reason for going home..."></textarea>
+    </div>
+
+    <button onclick="saveData()"><i class="fas fa-check-circle"></i> Generate & Save Outpass</button>
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+</div>
+
+<script>
+    // पेज लोड होते ही अगला SR No. दिखाएँ
+    window.onload = function() {
+        let logs = JSON.parse(localStorage.getItem("allOutpasses")) || [];
+        let nextNo = 1001;
+        if (logs.length > 0) {
+            let lastEntry = logs[logs.length - 1];
+            nextNo = (lastEntry.srNo) ? (parseInt(lastEntry.srNo) + 1) : (1001 + logs.length);
         }
-    </script>
+        document.getElementById('srDisplay').innerText = "Next SR No: " + nextNo;
+    };
+
+    function saveData() {
+        // फॉर्म वैल्यूज लेना
+        const name = document.getElementById('sName').value;
+        const father = document.getElementById('fName').value;
+        const roll = document.getElementById('rNo').value;
+        const contact = document.getElementById('cNo').value;
+        const cat = document.getElementById('sCat').value;
+        const talked = document.getElementById('talkedTo').value;
+        const reason = document.getElementById('sReason').value;
+
+        // वैलिडेशन
+        if(!name || !reason || !contact) {
+            alert("कृपया नाम, मोबाइल और कारण जरूर भरें!");
+            return;
+        }
+
+        let logs = JSON.parse(localStorage.getItem("allOutpasses")) || [];
+        
+        // --- ऑटो SR NO लॉजिक ---
+        let nextSrNo;
+        if (logs.length === 0) {
+            nextSrNo = 1001;
+        } else {
+            let lastEntry = logs[logs.length - 1];
+            nextSrNo = (lastEntry.srNo) ? (parseInt(lastEntry.srNo) + 1) : (1001 + logs.length);
+        }
+
+        // डेटा ऑब्जेक्ट
+        const newEntry = {
+            srNo: nextSrNo,
+            name: name,
+            fatherName: father,
+            rollNo: roll,
+            contactNo: contact,
+            category: cat,
+            talkedTo: talked,
+            reason: reason,
+            date: new Date().toLocaleString()
+        };
+
+        // लोकल स्टोरेज में सेव करना
+        logs.push(newEntry);
+        localStorage.setItem("allOutpasses", JSON.stringify(logs));
+        
+        alert("सफलतापूर्वक सेव हुआ! SR No: " + nextSrNo);
+        window.location.href = 'index.html'; 
+    }
+</script>
+
 </body>
 </html>
